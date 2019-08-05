@@ -23,33 +23,32 @@ function buildMenuFeed(menu) {
 }
 
 // ********** Переключить темы **********
+const Theme = {
+    LIGTH: 'light-theme',
+    DARK: 'dark-theme',
+}
 
 const changeTheme = document.querySelector('#theme-switch-control');
 const body = document.querySelector('body');
+const input = document.getElementById('theme-switch-control')
 
+changeTheme.addEventListener('click', event => {console.log(event)})
 
-changeTheme.addEventListener('click', changeThemeFunc)
+const userInput = localStorage.getItem('theme');
 
-function changeThemeFunc(event) {
-    if (event.target === changeTheme) {
-        body.classList.toggle('dark-theme');
-        saveTheme();
-    }
-}
-
-    function saveTheme() {
-        if (changeTheme.checked) {
-            localStorage.setItem('changeTheme', 'Black theme');
-        } else {
-            localStorage.setItem('changeTheme', 'White theme');
+    if (userInput !== null) {
+        document.body.classList.add(userInput);
+        if (userInput === 'dark-theme') {
+            input.checked = true;
         }
     }
-const isChecked = localStorage.getItem('changeTheme');
 
-function reload_Theme() {
-    if(isChecked === 'checked') {
-        body.classList.add('dark-theme');
-        changeTheme.checked = true;
+input.addEventListener('change', function (event) {
+    if (event.target === input && input.checked === true) {
+        document.body.classList.toggle(Theme.DARK);
+        localStorage.setItem('theme', Theme.DARK);
+    } else {
+        document.body.classList.remove(Theme.DARK);
+        localStorage.setItem('theme', Theme.LIGTH);
     }
-}
-reload_Theme();
+})
